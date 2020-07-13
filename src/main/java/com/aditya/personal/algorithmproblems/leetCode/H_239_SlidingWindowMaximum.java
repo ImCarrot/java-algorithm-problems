@@ -1,35 +1,26 @@
 package com.aditya.personal.algorithmproblems.leetCode;
 
 import java.util.Arrays;
-import java.util.Stack;
 
 public class H_239_SlidingWindowMaximum {
 
     public int[] maxSlidingWindow(int[] nums, int k) {
 
+        int[] leftMax = new int[nums.length];
 
-        Stack<Integer> currentMax = new Stack<>();
+        for (int i = 0; i < nums.length; i++)
+            leftMax[i] = i % k == 0 ? nums[i] : Math.max(nums[i], leftMax[i - 1]);
 
-        for (int i = 0; i < nums.length; i++) {
-            if (currentMax.isEmpty())
-                currentMax.push(nums[i]);
-            else
-                currentMax.push(Math.max(currentMax.peek(), nums[i]));
-        }
+        int[] rightMax = new int[nums.length];
+        rightMax[nums.length - 1] = nums[nums.length - 1];
+        for (int i = nums.length - 2; i >= 0; i--)
+            rightMax[i] = i % k == 0 ? nums[i] : Math.max(nums[i], rightMax[i + 1]);
 
-        Stack<Integer> leftToRight = new Stack<>();
-        for (int i = nums.length - 1; i - k + 1 >= 0; i--) {
 
-            if (currentMax.isEmpty())
-                break;
+        int[] output = new int[nums.length - k + 1];
 
-            leftToRight.push(currentMax.pop());
-        }
-
-        int[] output = new int[leftToRight.size()];
-
-        for (int i = 0; i < output.length; i++)
-            output[i] = leftToRight.pop();
+        for (int i = 0, j = 0; i + k <= nums.length; i++)
+            output[j++] = Math.max(rightMax[i], leftMax[i + k - 1]);
 
         return output;
     }
