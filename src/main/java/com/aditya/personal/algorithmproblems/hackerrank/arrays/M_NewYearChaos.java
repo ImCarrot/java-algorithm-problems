@@ -1,4 +1,4 @@
-package com.aditya.personal.algorithmproblems.hackerrank;
+package com.aditya.personal.algorithmproblems.hackerrank.arrays;
 
 public class M_NewYearChaos {
 
